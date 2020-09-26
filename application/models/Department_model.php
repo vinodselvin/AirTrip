@@ -41,4 +41,31 @@ class Department_model extends CI_Model {
         }
     }
 
+    public function insert_entry($department_name)
+    {
+        $this->db->insert('departments', array('department_name'=> $department_name));       
+        
+        return $this->db->insert_id();
+    }
+
+    public function insert_multiple($department_names){
+
+        $resp = array();
+
+        $department_names = is_array($department_names) ? $department_names : array($department_names);
+
+        foreach($department_names as $department_name){
+            
+            $id = $this->exists(false, $department_name);
+            
+            if(empty($id)){
+                $id = $this->insert_entry($department_name);
+            }
+
+            $resp[] = array('department_id' => $id, 'department_name' => $department_name);
+        }
+
+        return $resp;
+    }
+
 }

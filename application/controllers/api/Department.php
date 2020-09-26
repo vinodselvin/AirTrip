@@ -35,7 +35,16 @@ class Department extends REST_Controller {
     */
     public function index_post()
     {
-        
+        $input = $this->input->post();
+
+        if(!empty($input['department_name'])){
+            $id = $this->Department_model->insert_multiple($input['department_name']);
+
+            success($this, ['department' => $id]);
+        }
+        else{
+            error($this, array(), 'department_name field is missing');
+        }
     } 
      
     /**
