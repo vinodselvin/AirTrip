@@ -24,5 +24,21 @@ class Department_model extends CI_Model {
         return null;
     }
 
+    public function get($id = 0)
+    {
+        $this->db->select('department_id, department_name');
+
+        if(!empty($id)){
+            $this->db->where('department_id', $id);
+        }
+
+        $this->db->where("status", '1');
+
+        $query = $this->db->get('departments');
+
+        if($query->num_rows() > 0){
+            return $id ? $query->row_array() : $query->result_array();
+        }
+    }
 
 }

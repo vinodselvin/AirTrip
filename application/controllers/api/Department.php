@@ -8,6 +8,7 @@ class Department extends REST_Controller {
 
     public function __construct() {
        parent::__construct();
+       $this->load->model('Department_model');
     }
        
     /**
@@ -17,7 +18,14 @@ class Department extends REST_Controller {
     */
 	public function index_get($id = 0)
 	{
-        
+        $resp = $this->Department_model->get($id);
+
+        if($resp){
+            success($this, $resp);
+        }
+        else{
+            error($this, array(), 'No Records');
+        }
     }
       
     /**
