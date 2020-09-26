@@ -62,5 +62,12 @@ class Employee_model extends CI_Model {
         }
     }
 
+    public function insert_entry($employee)
+    {
+        $this->db->insert('employees', $employee);
+
+        return $this->db->insert_id();
+    }
+
 
 }

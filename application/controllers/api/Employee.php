@@ -13,6 +13,9 @@ class Employee extends REST_Controller {
        parent::__construct();
        
        $this->load->model('Employee_model');
+       $this->load->model('Department_model');
+       $this->load->model('Address_model');
+       $this->load->model('Contact_model');
     }
        
     /**
@@ -38,7 +41,22 @@ class Employee extends REST_Controller {
     */
     public function index_post()
     {
+        $input = $this->input->post();
         
+        if(!empty($input['name'])){
+            $employee = array();
+            $employee['name'] = $input['name'];
+            $employee['department_id'] = $this->Department_model->exists($input['department_id']);
+            $employee['id'] = $this->Employee_model->insert_entry($employee);
+
+            $this->Contact_model->insert_multiple($input['contact'], $employee['id']);
+            $this->Address_model->insert_multiple($input['address'], $employee['id']);
+
+            success($this, ['employee_id' => $employee['id']], "Employee Created Successfully!");
+        }
+        else{
+            error($this, array(), "Employee 'name' field is missing!");
+        }
     } 
      
     /**
