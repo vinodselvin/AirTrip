@@ -54,7 +54,28 @@ class Department extends REST_Controller {
     */
     public function index_put($id)
     {
+        $input = $this->put();
         
+        if($input && $id){
+
+            if($this->Department_model->exists($id)){
+
+                $resp = $this->Department_model->update_entry($id, $input);
+            
+                if($resp){
+                    success($this, array(), 'Department updated successfully.');
+                }
+                else{
+                    error($this, array(), 'Department Not updated! try again');
+                }
+            }
+            else{
+                error($this, array(), 'Department Not Found');
+            }
+        }
+        else{
+            error($this, array(), 'department_id is missing');
+        }
     }
      
     /**

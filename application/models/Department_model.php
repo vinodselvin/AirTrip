@@ -68,4 +68,14 @@ class Department_model extends CI_Model {
         return $resp;
     }
 
+    public function update_entry($department_id, $department){
+
+        $this->db->where('status', '1');
+        $this->db->where('department_id', $department_id);
+
+        $department['updated_at'] = date("Y-m-d H:i:s");
+
+        return $this->db->update('departments', $department);
+    }
+
 }
