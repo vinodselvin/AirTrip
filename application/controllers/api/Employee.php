@@ -66,7 +66,36 @@ class Employee extends REST_Controller {
     */
     public function index_put($id)
     {
+        $input = $this->put();
         
+        $employee = array();
+        
+        if(!empty($id)){
+
+            if($this->Employee_model->exists($id)){
+
+                if(isset($input['name'])){
+                    $employee['name'] = $input['name'];
+                }
+                if(isset($input['department_id'])){
+                    $employee['department_id'] = $this->Department_model->exists($input['department_id']);
+                }
+                
+                $this->Employee_model->update_entry($id, $employee);
+                
+                $this->Contact_model->update_multiple($id, $input['contact']);
+                $this->Address_model->update_multiple($id, $input['address']);
+
+                success($this, ['employee_id' => $id], "Employee Details Updated Successfully!");
+            }
+            else{
+                error($this, array(), "Employee Not Found!");
+            }
+        }
+        else{
+            error($this, array(), "Employee Not Found!");
+        }
+
         
     }
      

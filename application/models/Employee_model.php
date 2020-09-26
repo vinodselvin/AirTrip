@@ -1,6 +1,21 @@
 <?php
 class Employee_model extends CI_Model {
 
+    public function exists($id){
+
+        $this->db->select("employee_id");
+        $this->db->where('employee_id', $id);
+        $this->db->where('status', '1');
+
+        $query = $this->db->get('employees');
+        
+        if($query->num_rows() > 0){
+            return $query->row()->employee_id;
+        }
+
+        return null;
+    }
+
     public function get($id = 0)
     {
 
@@ -69,5 +84,14 @@ class Employee_model extends CI_Model {
         return $this->db->insert_id();
     }
 
+    public function update_entry($id, $employee)
+    {
+        $this->db->where('status', '1');
+        $this->db->where('employee_id', $id);
+
+        $employee['updated_at'] = date("Y-m-d H:i:s");
+        
+        $this->db->update('employees', $employee);
+    }
 
 }
