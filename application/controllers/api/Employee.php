@@ -12,7 +12,7 @@ class Employee extends REST_Controller {
     public function __construct() {
        parent::__construct();
        
-       
+       $this->load->model('Employee_model');
     }
        
     /**
@@ -21,7 +21,14 @@ class Employee extends REST_Controller {
      * @return Response
     */
 	public function index_get($id = 0){
-        
+        $resp = $this->Employee_model->get($id);
+
+        if($resp){
+            success($this, $resp);
+        }
+        else{
+            error($this, array(), "No Results Found");
+        }
     }
       
     /**
