@@ -106,7 +106,40 @@ class Employee extends REST_Controller {
     */
     public function index_delete($id)
     {
-        
+        $get = $this->delete();
+
+        if(empty($id)){
+            error($this, array(), "Employee 'employee_id' field is missing!");
+        }
+        else {
+
+            if($this->Employee_model->exists($id)){
+
+                if(empty($get) && $id){
+                    $this->Employee_model->update_entry($id, array('status' => '0'));
+
+                    success($this, array(), "Employee Deleted Successfully!");
+                }
+                else{
+                    if(isset($get['department_id'])){
+                        $this->Employee_model->update_entry($id, array('department_id' => null));
+                    }
+
+                    if(isset($get['contact_id'])){
+                        $this->Contact_model->update_entry($id, $get['contact_id'], array('status' => '0'));
+                    }
+
+                    if(isset($get['address_id'])){
+                        $this->Address_model->update_entry($id, $get['address_id'], array('status' => '0'));
+                    }
+                    
+                    success($this, array(), "Employee Details partially Deleted!");
+                }
+            }
+            else{
+                error($this, array(), "Employee Not Found!");
+            }
+        }
     }
     	
 }
