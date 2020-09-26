@@ -85,7 +85,20 @@ class Department extends REST_Controller {
     */
     public function index_delete($id)
     {
-        
+        if($id){
+            if($this->Department_model->exists($id)){
+
+                $this->Department_model->update_entry($id, array('status' => '0'));
+
+                success($this, array(), 'Department Deleted successfully.');
+            }
+            else{
+                error($this, array(), 'Department Not Found');
+            }
+        }
+        else{
+            error($this, array(), 'department_id is missing');
+        }
     }
     	
 }
