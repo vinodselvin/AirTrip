@@ -23,7 +23,21 @@ class Employee extends REST_Controller {
      *
      * @return Response
     */
-	public function index_get($id = 0){
+	public function index_get($id_or_resource = 0, $employee_name = false){
+
+        //if search
+        if(is_string($id_or_resource) && !empty($employee_name) && $id_or_resource == "search"){
+            $id = $this->search($employee_name);
+            
+            if(empty($id)){
+                error($this, array(), "No Results Found");
+                return false;
+            }
+        }
+        else{
+            $id = $id_or_resource;
+        }
+        
         $resp = $this->Employee_model->get($id);
 
         if($resp){
@@ -32,6 +46,7 @@ class Employee extends REST_Controller {
         else{
             error($this, array(), "No Results Found");
         }
+        
     }
       
     /**
@@ -140,6 +155,16 @@ class Employee extends REST_Controller {
                 error($this, array(), "Employee Not Found!");
             }
         }
+    }
+
+    /**
+     * Search and get Data from this method.
+     *
+     * @return array
+    */
+    function search($employee_name){
+        $ids = $this->Employee_model->getIdsByName($employee_name);
+        return $ids;
     }
     	
 }

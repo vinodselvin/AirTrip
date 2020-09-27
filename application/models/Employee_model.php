@@ -22,7 +22,13 @@ class Employee_model extends CI_Model {
         $this->db->select("e.employee_id, e.name, d.department_id, d.department_name, c.contact_id, c.contact, a.address_id, a.address");
 
         if(!empty($id)){
-            $this->db->where('e.employee_id', $id);
+            
+            if(is_array($id)){
+                $this->db->where_in('e.employee_id', $id);
+            }
+            else{
+                $this->db->where('e.employee_id', $id);
+            }
         }
 
         $this->db->where("e.status", '1');
@@ -40,6 +46,7 @@ class Employee_model extends CI_Model {
             foreach($result as $row){
                 
                 $resp[$row['employee_id']]['name'] = $row['name'];
+                $resp[$row['employee_id']]['employee_id'] = $row['employee_id'];
 
                 if(!empty($row['contact_id'])){
                     $resp[$row['employee_id']]['contact'][$row['contact_id']] = array(
@@ -70,7 +77,7 @@ class Employee_model extends CI_Model {
                 $resp[$employee_id]['address'] = !empty($e_employee['address']) ? array_values($e_employee['address']) : null;
             }
 
-            return !empty($id) ? $resp[$id] : array_values($resp);
+            return (is_int($id) && !empty($id)) ? $resp[$id] : array_values($resp);
         }
         else{
             return false;
@@ -92,6 +99,24 @@ class Employee_model extends CI_Model {
         $employee['updated_at'] = date("Y-m-d H:i:s");
         
         $this->db->update('employees', $employee);
+    }
+
+    function getIdsByName($employee_name){
+
+        $this->db->select('employee_id');
+        $this->db->like('name', $employee_name);
+        $this->db->where('status', '1');
+
+        $query = $this->db->get('employees');
+        
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $key => $row){
+                $ids[] = $row['employee_id'];
+            }
+            return $ids;
+        }
+
+        return false;
     }
 
 }
