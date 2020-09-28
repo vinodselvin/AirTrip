@@ -18,8 +18,7 @@ class Employee_model extends CI_Model {
 
     public function get($id = 0)
     {
-
-        $this->db->select("e.employee_id, e.name, d.department_id, d.department_name, c.contact_id, c.contact, a.address_id, a.address");
+        $this->db->select("e.employee_id, e.name, d.department_id, d.department_name, c.contact_id, c.contact, a.address_id, a.address, companies.company_name");
 
         if(!empty($id)){
             
@@ -30,12 +29,15 @@ class Employee_model extends CI_Model {
                 $this->db->where('e.employee_id', $id);
             }
         }
+        
+        $this->db->where('companies.company_id', $this->company_id);
 
         $this->db->where("e.status", '1');
 
         $this->db->join("departments d", "d.department_id = e.department_id AND d.status = 1", "left");
         $this->db->join("contacts c", "c.employee_id = e.employee_id AND c.status = 1", "left");
         $this->db->join("addresses a", "a.employee_id = e.employee_id AND a.status = 1", "left");
+        $this->db->join("companies", "companies.company_id = d.company_id AND d.status = 1", "left");
 
         $query = $this->db->get('employees e');
         

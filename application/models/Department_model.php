@@ -13,6 +13,7 @@ class Department_model extends CI_Model {
             $this->db->where('department_name', $name);
         }
 
+        $this->db->where('company_id', $this->company_id);
         $this->db->where('status', '1');
 
         $query = $this->db->get('departments');
@@ -32,6 +33,8 @@ class Department_model extends CI_Model {
             $this->db->where('department_id', $id);
         }
 
+        $this->db->where('company_id', $this->company_id);
+
         $this->db->where("status", '1');
 
         $query = $this->db->get('departments');
@@ -43,7 +46,7 @@ class Department_model extends CI_Model {
 
     public function insert_entry($department_name)
     {
-        $this->db->insert('departments', array('department_name'=> $department_name));       
+        $this->db->insert('departments', array('department_name'=> $department_name, 'company_id' => $this->company_id));       
         
         return $this->db->insert_id();
     }
@@ -72,6 +75,7 @@ class Department_model extends CI_Model {
 
         $this->db->where('status', '1');
         $this->db->where('department_id', $department_id);
+        $this->db->where('company_id', $this->company_id);
 
         $department['updated_at'] = date("Y-m-d H:i:s");
 

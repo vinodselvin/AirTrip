@@ -2,7 +2,7 @@
    
 require APPPATH . 'libraries/REST_Controller.php';
      
-class Company extends REST_Controller {
+class Company_api extends REST_Controller {
     
     private $response_data = null;
 

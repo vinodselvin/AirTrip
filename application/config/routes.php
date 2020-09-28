@@ -51,4 +51,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
+
+$route["api/company/(:num)"]["get"]    = "api/Company_api/$1";
+$route["api/company"]["get"]    = "api/Company_api";
+$route["api/company"]["post"]    = "api/Company_api";
+$route["api/company/(:num)"]["put"]    = "api/Company_api/$1";
+$route["api/company/(:num)"]["delete"]    = "api/Company_api/$1";
+
+$route["api/company/(:num)/department/(:num)"]["get"]    = "api/Department_api/$2";
+$route["api/company/(:num)/department"]["get"]    = "api/Department_api";
+$route["api/company/(:num)/department"]["post"]    = "api/Department_api";
+$route["api/company/(:num)/department/(:num)"]["put"]    = "api/Department_api/$2";
+$route["api/company/(:num)/department/(:num)"]["delete"]    = "api/Department_api/$2";
+
+$route["api/company/(:num)/employee/(:any)/(:any)"]    = "api/Employee_api/$2/$3";
+$route["api/company/(:num)/employee/(:num)"]["get"]    = "api/Employee_api/$2";
+$route["api/company/(:num)/employee"]["get"]    = "api/Employee_api";
+$route["api/company/(:num)/employee"]["post"]    = "api/Employee_api";
+$route["api/company/(:num)/employee/(:num)"]["put"]    = "api/Employee_api/$2";
+$route["api/company/(:num)/employee/(:num)"]["delete"]    = "api/Employee_api/$2";
+
 $route['translate_uri_dashes'] = FALSE;
