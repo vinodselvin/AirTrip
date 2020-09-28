@@ -28,7 +28,20 @@ CREATE TABLE `addresses` (
   `updated_at` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Table structure for table `companies` */
+
+DROP TABLE IF EXISTS `companies`;
+
+CREATE TABLE `companies` (
+  `company_id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`company_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `contacts` */
 
@@ -42,7 +55,7 @@ CREATE TABLE `contacts` (
   `updated_at` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`contact_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Table structure for table `departments` */
 
@@ -51,11 +64,12 @@ DROP TABLE IF EXISTS `departments`;
 CREATE TABLE `departments` (
   `department_id` int(11) NOT NULL AUTO_INCREMENT,
   `department_name` varchar(512) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Table structure for table `employees` */
 
@@ -70,7 +84,7 @@ CREATE TABLE `employees` (
   `status` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`employee_id`),
   KEY `department_id` (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
